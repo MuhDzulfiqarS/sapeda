@@ -423,50 +423,9 @@
                         @endif
                         <div class="text-end mt-3">
                             <button type="button" class="btn btn-primary btn-sm rounded-pill" onclick="getSiswaLocation()">Cari lokasi</button>
-                            <div id="map" style="height: 500px; width:100%; margin-top:20px;"></div> <!-- Div for the map -->
+                            <div id="map" style="height: 500px; width:100%; margin-top:20px;"></div>
                         </div>
                     </div>
-                      <div class="col-12">
-                        <label class="form-label">Transportasi</label> 
-                          <select class="form-select" aria-label="Default select example" name="transportasi">
-                            <option value="Sepeda Motor" {{($siswa->transportasi === 'Sepeda Motor') ? 'selected' : ''}}>Sepeda Motor</option>
-                            <option value="Mobil Pribadi" {{($siswa->transportasi === 'Mobil Pribadi') ? 'selected' : ''}}>Mobil Pribadi</option>
-                            <option value="Antar Jemput Sekolah" {{($siswa->transportasi === 'Antar Jemput Sekolah') ? 'selected' : ''}}>Antar Jemput Sekolah</option>
-                            <option value="Angkutan Umum" {{($siswa->transportasi === 'Angkutan Umum') ? 'selected' : ''}}>Angkutan Umum</option>
-                            <option value="Perahu/Sampan" {{($siswa->transportasi === 'Perahu/Sampan') ? 'selected' : ''}}>Perahu/Sampan</option>
-                            <option value="Lainnya" {{($siswa->transportasi === 'Lainnya') ? 'selected' : ''}}>Lainnya</option>
-                          </select>  
-                          @if ($errors->has('transportasi'))
-                                  <p class="text-danger">{{$errors->first('transportasi')}}</p>
-                          @endif
-                      </div>
-                      <div class="col-12">
-                        <label class="form-label">Jarak</label> 
-                          <select class="form-select" aria-label="Default select example" name="jarak">
-                            <option value="Kurang dari 5 km" {{($siswa->jarak === 'Kurang dari 5 km') ? 'selected' : ''}}>Kurang dari 5 km</option>
-                            <option value="Antara 5-10 km" {{($siswa->jarak === 'Antara 5-10 km') ? 'selected' : ''}}>Antara 5-10 km</option>
-                            <option value="Antara 11-20 km" {{($siswa->jarak === 'Antara 11-20 km') ? 'selected' : ''}}>Antara 11-20 km</option>
-                            <option value="Antara 21-30 km" {{($siswa->jarak === 'Antara 21-30 km') ? 'selected' : ''}}>Antara 21-30 km</option>
-                            <option value="lebih dari 30 km" {{($siswa->jarak === 'lebih dari 30 km') ? 'selected' : ''}}>lebih dari 30 km</option>   
-                          </select>  
-                          @if ($errors->has('jarak'))
-                                  <p class="text-danger">{{$errors->first('jarak')}}</p>
-                          @endif
-                      </div>
-                      <div class="col-12">
-                        <label class="form-label">Waktu Tempuh</label> 
-                          <select class="form-select" aria-label="Default select example" name="waktu_tempu">
-                            <option value="1-10 menit" {{($siswa->waktu_tempu === '1-10 menit') ? 'selected' : ''}}>1-10 menit</option>
-                            <option value="10-19 menit" {{($siswa->waktu_tempu === '10-19 menit') ? 'selected' : ''}}>10-19 menit</option>
-                            <option value="20-29 menit" {{($siswa->waktu_tempu === '20-29 menit') ? 'selected' : ''}}>20-29 menit</option>
-                            <option value="30-39 menit" {{($siswa->waktu_tempu === '30-39 menit') ? 'selected' : ''}}>30-39 menit</option>
-                            <option value="1-2 jam" {{($siswa->waktu_tempu === '1-2 jam') ? 'selected' : ''}}>1-2 jam</option>   
-                            <option value="> 2 jam" {{($siswa->waktu_tempu === '> 2 jam') ? 'selected' : ''}}>>2 jam</option>   
-                          </select>  
-                          @if ($errors->has('waktu_tempu'))
-                                  <p class="text-danger">{{$errors->first('waktu_tempu')}}</p>
-                          @endif
-                      </div>
                 
                       <div class="text-center">
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -846,52 +805,64 @@
 
 </main><!-- End #main -->
 <script>
-        var map;
-        var marker;
+ var map;
+var marker;
 
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: -5.15078, lng: 119.452467 },
-                zoom: 10
-            });
+function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: -5.15078, lng: 119.452467 },
+        zoom: 10
+    });
 
-            // Add click event listener to the map
-            map.addListener('click', function(e) {
-                placeMarker(e.latLng); // Call function to place marker
-                document.getElementById('koordinat').value = e.latLng.lat() + ',' + e.latLng.lng(); // Update input field with clicked coordinates
-            });
+    // Add click event listener to the map
+    map.addListener('click', function(e) {
+        placeMarker(e.latLng); // Call function to place marker
+        document.getElementById('koordinat').value = e.latLng.lat() + ',' + e.latLng.lng(); // Update input field with clicked coordinates
+    });
+}
+
+function getSiswaLocation() {
+    var alamat = document.querySelector('input[name="alamat"]').value;
+    var rt = document.querySelector('input[name="rt"]').value;
+    var rw = document.querySelector('input[name="rw"]').value;
+    var desa = document.querySelector('input[name="desa"]').value;
+    var kecamatan = document.querySelector('input[name="kecamatan"]').value;
+    var kabupaten = document.querySelector('input[name="kabupaten"]').value;
+    var provinsi = document.querySelector('input[name="provinsi"]').value;
+    var kode_pos = document.querySelector('input[name="kode_pos"]').value;
+
+    var fullAddress = `${alamat}, RT ${rt}/RW ${rw}, ${desa}, ${kecamatan}, ${kabupaten}, ${provinsi}, ${kode_pos}`;
+    geocodeAddress(fullAddress);
+}
+
+function geocodeAddress(address) {
+    var geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({ 'address': address }, function(results, status) {
+        if (status === 'OK') {
+            var latLng = results[0].geometry.location;
+            placeMarker(latLng);
+            map.setCenter(latLng);
+            map.setZoom(15);
+            document.getElementById('koordinat').value = latLng.lat() + ',' + latLng.lng();
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
         }
+    });
+}
 
-        function getSiswaLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    var latLng = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-                    placeMarker(latLng); // Place marker on map
-                    map.setCenter(latLng); // Center map to current location
-                    map.setZoom(15); // Optionally, zoom in for a closer view
-                    document.getElementById('koordinat').value = latLng.lat + ',' + latLng.lng; // Update input field with current coordinates
-                }, function() {
-                    alert('Gagal mendapatkan lokasi saat ini.');
-                });
-            } else {
-                alert('Geolocation tidak didukung oleh browser Anda.');
-            }
-        }
+function placeMarker(location) {
+    // Remove previous marker if exists
+    if (marker) {
+        marker.setMap(null);
+    }
+    // Place a marker on the map
+    marker = new google.maps.Marker({
+        position: location,
+        map: map
+    });
+}
 
-        function placeMarker(location) {
-            // Remove previous marker if exists
-            if (marker) {
-                marker.setMap(null);
-            }
-            // Place a marker on the map
-            marker = new google.maps.Marker({
-                position: location,
-                map: map
-            });
-        }
 </script>
 
 @endsection

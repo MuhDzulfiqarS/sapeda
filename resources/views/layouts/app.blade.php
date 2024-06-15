@@ -39,8 +39,9 @@
     <script src="{{asset('vendor/php-email-form/validate.js')}}"></script>
     <!-- Template Main JS File -->
     <script src="{{asset('js/main.js')}}"></script>
+
     <script async
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJA6ktk-CYzxE51_4DIxlZSYb7CGQO-q8&loading=async&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCoktwnNLyAjxIJADpwj4fFYKcFFmg-Rv0&loading=async&callback=initMap">
     </script>
    @stack('js')
 </body>
